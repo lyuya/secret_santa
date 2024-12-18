@@ -1,210 +1,230 @@
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ultimate Fun Party Page</title>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      height: 100vh;
-      background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
-      background-size: 400% 400%;
-      animation: gradientBG 8s infinite;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Comic Sans MS', sans-serif;
-    }
-
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .button {
-      padding: 15px 40px;
-      font-size: 2rem;
-      color: white;
-      background: #ff6f61;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-      transition: transform 0.3s ease, background 0.3s;
-    }
-
-    .button:hover {
-      transform: rotate(360deg) scale(1.2);
-      background: #ff4757;
-    }
-
-    #fireworksCanvas,
-    #confettiCanvas,
-    #balloonCanvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-
-    #messages {
-      position: absolute;
-      top: 10%;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 2rem;
-      color: white;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-      display: none;
-      z-index: 2;
-    }
-  </style>
-</head>
-<body>
-  <button class="button" id="funButton">Click Me!</button>
-  <div id="messages">🎉 You're a Star! 🎉</div>
-  <canvas id="confettiCanvas"></canvas>
-  <canvas id="fireworksCanvas"></canvas>
-  <canvas id="balloonCanvas"></canvas>
-
-  <script>
-    // Canvas setup
-    const confettiCanvas = document.getElementById('confettiCanvas');
-    const fireworksCanvas = document.getElementById('fireworksCanvas');
-    const balloonCanvas = document.getElementById('balloonCanvas');
-    const confettiCtx = confettiCanvas.getContext('2d');
-    const fireworksCtx = fireworksCanvas.getContext('2d');
-    const balloonCtx = balloonCanvas.getContext('2d');
-    confettiCanvas.width = fireworksCanvas.width = balloonCanvas.width = window.innerWidth;
-    confettiCanvas.height = fireworksCanvas.height = balloonCanvas.height = window.innerHeight;
-
-    // Random Messages
-    const messages = document.getElementById('messages');
-    const funButton = document.getElementById('funButton');
-    function showMessage() {
-      const messagesArray = [
-        "🎉 You're a Star! 🎉",
-        "✨ Party Time! ✨",
-        "💃 Let's Dance! 🕺",
-        "🎈 Balloons Everywhere! 🎈",
-        "🌟 Shine Bright! 🌟",
-      ];
-      const randomMessage = messagesArray[Math.floor(Math.random() * messagesArray.length)];
-      messages.textContent = randomMessage;
-      messages.style.display = 'block';
-      setTimeout(() => (messages.style.display = 'none'), 2000);
-    }
-
-    // Confetti Animation
-    let confetti = [];
-    function createConfetti() {
-      confetti = [];
-      for (let i = 0; i < 200; i++) {
-        confetti.push({
-          x: Math.random() * confettiCanvas.width,
-          y: Math.random() * confettiCanvas.height - confettiCanvas.height,
-          r: Math.random() * 6 + 2,
-          color: `hsl(${Math.random() * 360}, 100%, 70%)`,
-          tilt: Math.random() * 10 - 5,
-          speed: Math.random() * 2 + 1,
-        });
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ultimate Fun Party Page</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        height: 100vh;
+        background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+        background-size: 400% 400%;
+        animation: gradientBG 8s infinite;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Comic Sans MS', sans-serif;
       }
-    }
 
-    function drawConfetti() {
-      confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-      confetti.forEach((c) => {
-        confettiCtx.beginPath();
-        confettiCtx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
-        confettiCtx.fillStyle = c.color;
-        confettiCtx.fill();
-        c.y += c.speed;
-        c.tilt += Math.random() * 0.1 - 0.05;
-
-        if (c.y > confettiCanvas.height) c.y = -c.r;
-      });
-    }
-
-    // Fireworks Animation
-    let fireworks = [];
-    function createFirework(x, y) {
-      for (let i = 0; i < 50; i++) {
-        fireworks.push({
-          x: x,
-          y: y,
-          r: Math.random() * 5 + 1,
-          color: `hsl(${Math.random() * 360}, 100%, 70%)`,
-          vx: Math.random() * 4 - 2,
-          vy: Math.random() * 4 - 2,
-        });
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
       }
-    }
 
-    function drawFireworks() {
-      fireworksCtx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
-      fireworks.forEach((f, i) => {
-        fireworksCtx.beginPath();
-        fireworksCtx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-        fireworksCtx.fillStyle = f.color;
-        fireworksCtx.fill();
-        f.x += f.vx;
-        f.y += f.vy;
-        f.r -= 0.05;
-        if (f.r <= 0) fireworks.splice(i, 1);
-      });
-    }
-
-    // Balloons Animation
-    let balloons = [];
-    function createBalloons() {
-      for (let i = 0; i < 10; i++) {
-        balloons.push({
-          x: Math.random() * balloonCanvas.width,
-          y: balloonCanvas.height + Math.random() * 100,
-          r: Math.random() * 20 + 10,
-          color: `hsl(${Math.random() * 360}, 100%, 70%)`,
-          vy: Math.random() * 2 + 1,
-        });
+      .button {
+        padding: 15px 40px;
+        font-size: 2rem;
+        color: white;
+        background: #ff6f61;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        transition:
+          transform 0.3s ease,
+          background 0.3s;
       }
-    }
 
-    function drawBalloons() {
-      balloonCtx.clearRect(0, 0, balloonCanvas.width, balloonCanvas.height);
-      balloons.forEach((b, i) => {
-        balloonCtx.beginPath();
-        balloonCtx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-        balloonCtx.fillStyle = b.color;
-        balloonCtx.fill();
-        b.y -= b.vy;
-        if (b.y + b.r < 0) balloons.splice(i, 1);
-      });
-    }
+      .button:hover {
+        transform: rotate(360deg) scale(1.2);
+        background: #ff4757;
+      }
 
-    // Event Listeners
-    funButton.addEventListener('click', () => {
-      createConfetti();
-      createBalloons();
-      showMessage();
-    });
+      #fireworksCanvas,
+      #confettiCanvas,
+      #balloonCanvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
 
-    fireworksCanvas.addEventListener('click', (e) => {
-      createFirework(e.clientX, e.clientY);
-    });
+      #messages {
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 2rem;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        display: none;
+        z-index: 2;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="button" id="funButton">Click Me!</button>
+    <div id="messages">🎉 You're a Star! 🎉</div>
+    <canvas id="confettiCanvas"></canvas>
+    <canvas id="fireworksCanvas"></canvas>
+    <canvas id="balloonCanvas"></canvas>
 
-    // Animations
-    function animate() {
-      drawConfetti();
-      drawFireworks();
-      drawBalloons();
-      requestAnimationFrame(animate);
-    }
+    <script>
+      // Canvas setup
+      const confettiCanvas = document.getElementById('confettiCanvas')
+      const fireworksCanvas = document.getElementById('fireworksCanvas')
+      const balloonCanvas = document.getElementById('balloonCanvas')
+      const confettiCtx = confettiCanvas.getContext('2d')
+      const fireworksCtx = fireworksCanvas.getContext('2d')
+      const balloonCtx = balloonCanvas.getContext('2d')
+      confettiCanvas.width =
+        fireworksCanvas.width =
+        balloonCanvas.width =
+          window.innerWidth
+      confettiCanvas.height =
+        fireworksCanvas.height =
+        balloonCanvas.height =
+          window.innerHeight
 
-    createConfetti();
-    animate();
-  </script>
-</body>
+      // Random Messages
+      const messages = document.getElementById('messages')
+      const funButton = document.getElementById('funButton')
+      function showMessage() {
+        const messagesArray = [
+          "🎉 You're a Star! 🎉",
+          '✨ Party Time! ✨',
+          "💃 Let's Dance! 🕺",
+          '🎈 Balloons Everywhere! 🎈',
+          '🌟 Shine Bright! 🌟',
+        ]
+        const randomMessage =
+          messagesArray[Math.floor(Math.random() * messagesArray.length)]
+        messages.textContent = randomMessage
+        messages.style.display = 'block'
+        setTimeout(() => (messages.style.display = 'none'), 2000)
+      }
+
+      // Confetti Animation
+      let confetti = []
+      function createConfetti() {
+        confetti = []
+        for (let i = 0; i < 200; i++) {
+          confetti.push({
+            x: Math.random() * confettiCanvas.width,
+            y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+            r: Math.random() * 6 + 2,
+            color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+            tilt: Math.random() * 10 - 5,
+            speed: Math.random() * 2 + 1,
+          })
+        }
+      }
+
+      function drawConfetti() {
+        confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height)
+        confetti.forEach((c) => {
+          confettiCtx.beginPath()
+          confettiCtx.arc(c.x, c.y, c.r, 0, Math.PI * 2)
+          confettiCtx.fillStyle = c.color
+          confettiCtx.fill()
+          c.y += c.speed
+          c.tilt += Math.random() * 0.1 - 0.05
+
+          if (c.y > confettiCanvas.height) c.y = -c.r
+        })
+      }
+
+      // Fireworks Animation
+      let fireworks = []
+      function createFirework(x, y) {
+        for (let i = 0; i < 50; i++) {
+          fireworks.push({
+            x: x,
+            y: y,
+            r: Math.random() * 5 + 1,
+            color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+            vx: Math.random() * 4 - 2,
+            vy: Math.random() * 4 - 2,
+          })
+        }
+      }
+
+      function drawFireworks() {
+        fireworksCtx.clearRect(
+          0,
+          0,
+          fireworksCanvas.width,
+          fireworksCanvas.height
+        )
+        fireworks.forEach((f, i) => {
+          fireworksCtx.beginPath()
+          fireworksCtx.arc(f.x, f.y, f.r, 0, Math.PI * 2)
+          fireworksCtx.fillStyle = f.color
+          fireworksCtx.fill()
+          f.x += f.vx
+          f.y += f.vy
+          f.r -= 0.05
+          if (f.r <= 0) fireworks.splice(i, 1)
+        })
+      }
+
+      // Balloons Animation
+      let balloons = []
+      function createBalloons() {
+        for (let i = 0; i < 10; i++) {
+          balloons.push({
+            x: Math.random() * balloonCanvas.width,
+            y: balloonCanvas.height + Math.random() * 100,
+            r: Math.random() * 20 + 10,
+            color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+            vy: Math.random() * 2 + 1,
+          })
+        }
+      }
+
+      function drawBalloons() {
+        balloonCtx.clearRect(0, 0, balloonCanvas.width, balloonCanvas.height)
+        balloons.forEach((b, i) => {
+          balloonCtx.beginPath()
+          balloonCtx.arc(b.x, b.y, b.r, 0, Math.PI * 2)
+          balloonCtx.fillStyle = b.color
+          balloonCtx.fill()
+          b.y -= b.vy
+          if (b.y + b.r < 0) balloons.splice(i, 1)
+        })
+      }
+
+      // Event Listeners
+      funButton.addEventListener('click', () => {
+        createConfetti()
+        createBalloons()
+        showMessage()
+      })
+
+      fireworksCanvas.addEventListener('click', (e) => {
+        createFirework(e.clientX, e.clientY)
+      })
+
+      // Animations
+      function animate() {
+        drawConfetti()
+        drawFireworks()
+        drawBalloons()
+        requestAnimationFrame(animate)
+      }
+
+      createConfetti()
+      animate()
+    </script>
+  </body>
 </html>

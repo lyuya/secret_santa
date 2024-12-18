@@ -1,9 +1,9 @@
-import SecretForm from "../components/SecretForm/SecretForm";
+import SecretForm from '../components/SecretForm/SecretForm'
 
 export default function SecretList() {
-
-    return (
+  return (
     <>
-        <SecretForm></SecretForm>
-    </>)
+      <SecretForm></SecretForm>
+    </>
+  )
 }

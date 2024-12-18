@@ -1,7 +1,5 @@
-import StartSecret from "./components/Home/StartSecret";
+import StartSecret from './components/Home/StartSecret'
 
 export default function Home() {
-  return (
-    <StartSecret></StartSecret>
-  );
+  return <StartSecret></StartSecret>
 }
