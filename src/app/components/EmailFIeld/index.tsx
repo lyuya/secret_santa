@@ -9,10 +9,18 @@ const EMAILS_SUFFIX = [
     '@outlook.com',
     '@icloud.com',
 ]
+export interface EmailFieldProps {
+    value: string,
+    onchange: (value: string) => void
+}
 
-export const EmailField = () => {
-    const [email, setEmail] = useState('')
+export const EmailField = ({value, onchange}: EmailFieldProps) => {
+    const [email, setEmail] = useState(value)
     const inputRef = useRef(null);
+    const chooseEmail = (email: string) => {
+        setEmail(email);
+        onchange(email);
+    }
     const autoCompletionList = useMemo(() => {
         if (email.length < 3) {
             return []
@@ -34,19 +42,17 @@ export const EmailField = () => {
     }, [email])
 
     return (
-        <div className="border w-full relative" >
-            <div className="flex items-center w-full">
-                <input ref={inputRef} value={email} type="email" className="font-bold p-2 w-full" placeholder="Enter your email" onChange={(event) => setEmail(event.target.value)}/>
-            </div>
+        <div className="w-full relative self-center" >
+            <input ref={inputRef} value={email} type="email" className="m-[6px] w-11/12" placeholder="example: abc@mail.com" onChange={(event) => setEmail(event.target.value)}/>
             
-            <ul className="absolute max-h-[260px] overflow-x-hidden overflow-y-auto w-full mt-1" >
-                {
+            <ul className="absolute rounded-md max-h-[260px] overflow-x-hidden overflow-y-auto w-full mt-1 bg-white shadow-md" >
+                {autoCompletionList.length > 0 &&
                     autoCompletionList.map((item, index) => (
                         <li
-                            className={`flex items-center h-[40px] hover:bg-slate-300 w-full ` + (100 === index && "bg-slate-300")}
+                            className={`flex items-center h-[40px] hover:bg-red-50 w-full ` + (100 === index && "bg-slate-300")}
                             key={index}
                         >
-                            <button className="flex items-center space-x-1 w-full h-full" onClick={(event) => setEmail((event.target as HTMLButtonElement).innerText)}>
+                            <button className="flex items-center space-x-1 w-full h-full p-2 text-red-900 font-bold" onClick={() => chooseEmail(item)}>
                                 {item}
                             </button>
                         </li>

@@ -2,17 +2,22 @@
 import { useState } from "react";
 import styles from "./SecretForm.module.css"
 import Link from "next/link";
+import { EmailField } from "../EmailFIeld";
 export default function SecretForm() {
     const [name, setName] = useState('');
     const [nbPers, setNbPers] = useState(0);
     const [receivers, setReceivers] = useState<string[]>(['m@gmail.com', 'm1@gmail.com', 'm12@gmail.com']);
     const [newReceiver, setNewReceiver] = useState('')
     const addNewReceiver = () => {
-        if (receivers.includes(newReceiver)) console.error('This receiver is already in the list !')
-        const receiversCopy = [...receivers];
-        receiversCopy.push(newReceiver);
-        setReceivers(receiversCopy);
-        setNewReceiver('');
+        if (receivers.includes(newReceiver)) {
+            console.error('This receiver is already in the list !')
+        } else {
+            const receiversCopy = [...receivers];
+            receiversCopy.push(newReceiver);
+            setReceivers(receiversCopy);
+            setNewReceiver('');            
+        }
+
     }
 
     return (<>
@@ -28,9 +33,9 @@ export default function SecretForm() {
             </div>
             <div className="pb-10">
                 <div className="text-xl font-bold text-red-900">Who are they ? (please type their email to let them know)</div>
-                <div className="w-full flex rounded-md h-10 p-2 text-xl shadow-md bg-white justify-between">
-                    <input className="w-11/12" value={newReceiver} onChange={($event) => setNewReceiver($event.target.value)}/>
-                    <button disabled={newReceiver.length === 0} className="px-[9px] self-center text-red-900 rounded-full hover:bg-red-100" onClick={() => addNewReceiver()}>+</button>
+                <div className="w-full rounded-md h-10 text-xl shadow-md bg-white justify-between relative">
+                    <EmailField value={newReceiver} onchange={setNewReceiver}></EmailField>
+                    <button disabled={newReceiver.length === 0} className="absolute top-[2px] right-0 px-[9px] m-1	right-2 self-center text-red-900 rounded-full hover:bg-red-100" onClick={() => addNewReceiver()}>+</button>
                 </div>
                 <div className="pt-5">
 
