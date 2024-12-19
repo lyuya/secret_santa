@@ -4,6 +4,9 @@ import styles from './SecretForm.module.css'
 import Link from 'next/link'
 import { EmailField } from '../EmailFIeld'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import { db } from '@/app/services/firebase'
+import { addDoc, collection } from 'firebase/firestore'
+import { redirect } from 'next/navigation'
 
 export default function SecretForm() {
   const [name, setName] = useState('')
@@ -18,16 +21,28 @@ export default function SecretForm() {
     if (receivers.includes(newReceiver)) {
       console.error('This receiver is already in the list !')
     } else {
-      const receiversCopy = [...receivers]
-      receiversCopy.push(newReceiver)
-      setReceivers(receiversCopy)
-      setNewReceiver('')
+      setReceivers([...receivers, newReceiver])
     }
+    setNewReceiver('')
   }
 
   const deleteReceiver = (mail: string) => {
     const receiversCopy = receivers.filter(m => m !== mail)
     setReceivers(receiversCopy)
+  }
+
+  const createSecret = async () => {
+    try {
+        const docRef = await addDoc(collection(db, "secretList"), {
+            name,
+            nbPers,
+            emails: receivers
+        });
+        console.log("Document written with ID: ", docRef.id);
+        redirect('/created');
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
   }
 
   return (
@@ -67,12 +82,12 @@ export default function SecretForm() {
               </div>
               <div className="w-full rounded-md h-10 text-xl shadow-md bg-white justify-between relative">
                 <EmailField
-                  value={newReceiver}
-                  onchange={setNewReceiver}
+                  email={newReceiver}
+                  setEmail={setNewReceiver}
                 ></EmailField>
                 <button
                   disabled={newReceiver.length === 0}
-                  className="absolute top-[2px] right-0 px-[9px] m-1	right-2 self-center text-red-900 rounded-full hover:bg-red-100"
+                  className="absolute top-[2px] right-0 px-[9px] m-1 right-2 self-center text-red-900 rounded-full hover:bg-red-100"
                   onClick={() => addNewReceiver()}
                 >
                   +
@@ -100,7 +115,7 @@ export default function SecretForm() {
                 </ul>
               </div>
             </div>
-            <button className="justify-self-center rounded-full bg-red-700 p-2 w-60 text-white font-bold hover:bg-red-600">
+            <button onClick={() => {createSecret()}} className="justify-self-center rounded-full bg-red-700 p-2 w-60 text-white font-bold hover:bg-red-600">
               Create the secret !
             </button>
           </div>
