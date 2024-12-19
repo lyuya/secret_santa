@@ -25,64 +25,70 @@ export default function SecretForm() {
 
   return (
     <>
-      <div className="bg-red-200 h-screen content-center">
-        <div className="w-2/6 justify-self-center grid gap-y-3">
-          <div className="w-full">
-            <div className="text-xl font-bold text-red-900">Name of secret</div>
-            <input
-              className="w-full rounded-md h-10 p-2 text-xl shadow-md"
-              value={name}
-              onChange={($event) => setName($event.target.value)}
-            />
-          </div>
-          <div>
-            <div className="text-xl font-bold text-red-900">
-              How many person will join this secret ?
+      <div className="bg-red-200 h-screen grid items-baseline">
+        <header className='py-2 px-20'>
+            <Link href='/'><img height={200} width={150} src='logo.png'/></Link>
+        </header>
+        <div className="content-center">
+            <div className="w-2/6 content-center justify-self-center grid gap-y-3">
+            <div className="w-full">
+                <div className="text-xl font-bold text-red-900">Name of secret</div>
+                <input
+                className="w-full rounded-md h-10 p-2 text-xl shadow-md"
+                value={name}
+                onChange={($event) => setName($event.target.value)}
+                />
             </div>
-            <input
-              className="w-full rounded-md h-10 p-2 text-xl shadow-md"
-              type="number"
-              value={nbPers}
-              onChange={($event) => setNbPers(parseInt($event.target.value))}
-            />
-          </div>
-          <div className="pb-10">
-            <div className="text-xl font-bold text-red-900">
-              Who are they ? (please type their email to let them know)
+            <div>
+                <div className="text-xl font-bold text-red-900">
+                How many person will join this secret ?
+                </div>
+                <input
+                className="w-full rounded-md h-10 p-2 text-xl shadow-md"
+                type="number"
+                value={nbPers}
+                onChange={($event) => setNbPers(parseInt($event.target.value))}
+                />
             </div>
-            <div className="w-full rounded-md h-10 text-xl shadow-md bg-white justify-between relative">
-              <EmailField
-                value={newReceiver}
-                onchange={setNewReceiver}
-              ></EmailField>
-              <button
-                disabled={newReceiver.length === 0}
-                className="absolute top-[2px] right-0 px-[9px] m-1	right-2 self-center text-red-900 rounded-full hover:bg-red-100"
-                onClick={() => addNewReceiver()}
-              >
-                +
-              </button>
+            <div className="pb-10">
+                <div className="text-xl font-bold text-red-900">
+                Who are they ? (please type their email to let them know)
+                </div>
+                <div className="w-full rounded-md h-10 text-xl shadow-md bg-white justify-between relative">
+                <EmailField
+                    value={newReceiver}
+                    onchange={setNewReceiver}
+                ></EmailField>
+                <button
+                    disabled={newReceiver.length === 0}
+                    className="absolute top-[2px] right-0 px-[9px] m-1	right-2 self-center text-red-900 rounded-full hover:bg-red-100"
+                    onClick={() => addNewReceiver()}
+                >
+                    +
+                </button>
+                </div>
+                <div className="pt-5">
+                <ul>
+                    {receivers &&
+                    receivers.map((mail) => (
+                        <li className={styles.emoji} key={mail}>
+                        <Link
+                            href={'mailto:' + mail}
+                            className="text-red-900 font-bold"
+                        >
+                            {mail}
+                        </Link>
+                        </li>
+                    ))}
+                </ul>
+                </div>
             </div>
-            <div className="pt-5">
-              <ul>
-                {receivers &&
-                  receivers.map((mail) => (
-                    <li className={styles.emoji} key={mail}>
-                      <Link
-                        href={'mailto:' + mail}
-                        className="text-red-900 font-bold"
-                      >
-                        {mail}
-                      </Link>
-                    </li>
-                  ))}
-              </ul>
-            </div>
-          </div>
-          <button className="justify-self-center rounded-full bg-red-700 p-2 w-60 text-white font-bold hover:bg-red-600">
-            Create the secret !
-          </button>
+            <button className="justify-self-center rounded-full bg-red-700 p-2 w-60 text-white font-bold hover:bg-red-600">
+                Create the secret !
+            </button>
+            </div>            
         </div>
+
       </div>
     </>
   )
