@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect } from "react"
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Link from "next/link";
 
 export default function Created() {
     useEffect(() => {
@@ -58,7 +60,17 @@ export default function Created() {
     return (
         <>
         <div className="h-screen">
-            <button className="absolute right-1/2 top-1/2 rounded-xl bg-red-100/30 shadow p-5 text-red-900 font-bold text-xl backdrop-blur-md ">Check your mail box ! 🎁</button>
+            <div className="absolute right-1/2 top-1/2 ">
+            <Link href="/">
+                <span className="p-5 text-3xl text-red-900 hover:text-red-700">
+                    <ArrowBackIcon></ArrowBackIcon>                
+                </span> 
+            </Link>
+            <button className="rounded-xl bg-red-100/30 shadow p-5 text-red-900 font-bold text-xl backdrop-blur-md ">
+                Check your mail box ! 🎁
+            </button>                
+            </div>
+
             <canvas id="confettiCanvas"></canvas>            
         </div>
 
