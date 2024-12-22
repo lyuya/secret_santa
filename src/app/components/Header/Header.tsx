@@ -1,15 +1,20 @@
 'use client'
 
-import { login } from '@/app/services/auth.service'
+import { logout } from '@/app/services/auth.service'
 import { auth } from '@/app/services/firebase'
-import { User } from 'firebase/auth'
+import { GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
-
+import LogoutIcon from '@mui/icons-material/Logout';
 export default function Header() {
   const [user, setUser] = useState<User>()
   const connect = async () => {
-    await login()
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider);  }
+
+  const disconnect = async () => {
+    await logout()
+
   }
 
   useEffect(() => {
@@ -19,7 +24,17 @@ export default function Header() {
   }, [])
   return (
     <header className="float-right p-5">
-      {user && <div>Hi ! {user.displayName}</div>}
+      {user && (
+        <>
+            <span>Hi ! {user.displayName}</span>
+            <button
+                className="text-red-900 hover:text-red-700"
+                onClick={() => disconnect()}
+            >
+                <LogoutIcon></LogoutIcon>
+            </button>
+        </>
+        )}
       {!user && (
         <button
           className="text-red-900 hover:text-red-700"
