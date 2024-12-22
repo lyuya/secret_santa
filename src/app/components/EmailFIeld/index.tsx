@@ -10,7 +10,7 @@ const EMAILS_SUFFIX = [
   '@icloud.com',
 ]
 export interface EmailFieldProps {
-    email: string
+  email: string
   setEmail: (value: string) => void
 }
 
