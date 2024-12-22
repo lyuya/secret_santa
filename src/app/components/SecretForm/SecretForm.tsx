@@ -116,10 +116,8 @@ export default function SecretForm() {
                         >
                           <DeleteOutlineIcon className="text-md text-red-900 hover:text-red-700"></DeleteOutlineIcon>
                         </button>
-                      </li>
-                    ))}
-                </ul>
-              </div>
+                    </div>
+                </div>
             </div>
             <button
               onClick={() => {
