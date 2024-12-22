@@ -1,8 +1,11 @@
+'use client'
 import Link from 'next/link'
 import styles from './startSecret.module.css'
+import Header from '../Header/Header'
 export default function StartSecret() {
   return (
     <>
+      <Header></Header>
       <div className={styles.homeContainer}>
         <div className="flex justify-center align-middle self-center h-full">
           <Link
