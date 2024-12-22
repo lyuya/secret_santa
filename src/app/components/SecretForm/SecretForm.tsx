@@ -6,13 +6,15 @@ import { EmailField } from '../EmailFIeld'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { db } from '@/app/services/firebase'
 import { addDoc, collection } from 'firebase/firestore'
-import { redirect } from 'next/navigation'
+import { organiseReceivers, sendMail } from '@/app/services/sendMailService'
+import { useRouter } from 'next/navigation'
 
 export default function SecretForm() {
     const [name, setName] = useState('')
-    const [nbPers, setNbPers] = useState(0)
+    const [giftValue, setGiftValue] = useState(0)
     const [receivers, setReceivers] = useState<string[]>([])
     const [newReceiver, setNewReceiver] = useState('')
+    const router = useRouter()
     const addNewReceiver = () => {
         if (receivers.includes(newReceiver)) {
             console.error('This receiver is already in the list !')
@@ -21,6 +23,7 @@ export default function SecretForm() {
         }
         setNewReceiver('')
     }
+
 
     const deleteReceiver = (mail: string) => {
         const receiversCopy = receivers.filter(m => m !== mail)
@@ -31,11 +34,14 @@ export default function SecretForm() {
         try {
             const docRef = await addDoc(collection(db, "secretList"), {
                 name,
-                nbPers,
+                giftValue,
                 emails: receivers
             });
-            console.log("Document written with ID: ", docRef.id);
-            redirect('/created')
+            if(docRef.id) {
+                const emailRequest = organiseReceivers(receivers, giftValue, name);
+                await sendMail(emailRequest);
+            }
+            router.push('/created')
         } catch (e) {
             console.error("Error adding document: ", e);
         }
@@ -63,13 +69,13 @@ export default function SecretForm() {
                         </div>
                         <div>
                             <div className="text-xl font-bold text-red-900">
-                                How many person will join this secret ?
+                            How much will the gift be approximately ? (euros)
                             </div>
                             <input
                                 className="w-full rounded-md h-10 p-2 text-xl shadow-md"
                                 type="number"
-                                value={nbPers}
-                                onChange={($event) => setNbPers(parseInt($event.target.value))}
+                                value={giftValue}
+                                onChange={($event) => setGiftValue(parseInt($event.target.value))}
                             />
                         </div>
                         <div className="pb-10">
