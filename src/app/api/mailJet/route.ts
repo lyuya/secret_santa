@@ -28,12 +28,12 @@ const sendMail = async (mails: MailRequest[]) => {
 export async function POST(req: Request) {
   let res
   const { recipients } = await req.json()
-  if (recipients) {
-    res = await sendMail(recipients)
-    if (res.status === 200) console.log('success!')
-  } else {
+  
+  if (!recipients) {
     console.error('recipients field is empty !')
   }
+  res = await sendMail(recipients)
+  if (res.status === 200) console.log('success!')
 
   return res
 }
