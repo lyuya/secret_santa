@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
+import { useMemo, useRef } from 'react'
 
 const EMAILS_SUFFIX = [
   '@gmail.com',
@@ -10,16 +10,14 @@ const EMAILS_SUFFIX = [
   '@icloud.com',
 ]
 export interface EmailFieldProps {
-  value: string
-  onchange: (value: string) => void
+    email: string
+  setEmail: (value: string) => void
 }
 
-export const EmailField = ({ value, onchange }: EmailFieldProps) => {
-  const [email, setEmail] = useState(value)
+export const EmailField = ({ email, setEmail }: EmailFieldProps) => {
   const inputRef = useRef(null)
   const chooseEmail = (email: string) => {
     setEmail(email)
-    onchange(email)
   }
   const autoCompletionList = useMemo(() => {
     if (email.length < 3) {
