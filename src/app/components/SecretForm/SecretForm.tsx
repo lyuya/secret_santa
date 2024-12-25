@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import styles from './SecretForm.module.css'
 import Link from 'next/link'
 import { EmailField } from '../EmailFIeld'
@@ -8,12 +8,14 @@ import { db } from '@/app/services/firebase'
 import { addDoc, collection } from 'firebase/firestore'
 import { organiseReceivers, sendMail } from '@/app/services/sendMailService'
 import { useRouter } from 'next/navigation'
+import { UserContext } from '@/app/layout'
 
 export default function SecretForm() {
   const [name, setName] = useState('')
   const [giftValue, setGiftValue] = useState(0)
   const [receivers, setReceivers] = useState<string[]>([])
   const [newReceiver, setNewReceiver] = useState('')
+  const context = useContext(UserContext)
   const router = useRouter()
   const addNewReceiver = () => {
     if (receivers.includes(newReceiver)) {
@@ -35,6 +37,7 @@ export default function SecretForm() {
         name,
         giftValue,
         emails: receivers,
+        userId: context?.user?.uid
       })
       if (docRef.id) {
         const emailRequest = organiseReceivers(receivers, giftValue, name)
