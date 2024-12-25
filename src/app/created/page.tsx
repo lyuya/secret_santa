@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import Link from 'next/link'
+import styles from './created.module.css'
 
 export default function Created() {
   useEffect(() => {
@@ -62,7 +63,7 @@ export default function Created() {
   return (
     <>
       <div className="h-screen">
-        <div className="absolute right-1/2 top-1/2 ">
+        <div className={"absolute top-1/2 " + styles.rightCenter}>
           <Link href="/">
             <span className="p-5 text-3xl text-red-900 hover:text-red-700">
               <ArrowBackIcon></ArrowBackIcon>
