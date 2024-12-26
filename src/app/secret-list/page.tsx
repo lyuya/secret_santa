@@ -13,7 +13,7 @@ export default function SecretList() {
     const loadHistory = async () => {
         const currentUser = context?.user
         if (!currentUser) {
-            console.error('User not connected.')
+            console.log('User not connected.')
             return
         }
         const users = collection(db, 'secretList');
@@ -32,7 +32,7 @@ export default function SecretList() {
 
     useEffect(() => {
         loadHistory()
-    }, []);
+    }, [context]);
     return (
         <>
             <Header></Header>
