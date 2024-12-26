@@ -1,4 +1,11 @@
-import { collection, getDocs, query, where } from 'firebase/firestore'
+import {
+  collection,
+  DocumentData,
+  getDocs,
+  query,
+  QueryDocumentSnapshot,
+  where,
+} from 'firebase/firestore'
 import { MailRequest } from '../model/mailRequest'
 import { auth, db } from './firebase'
 
@@ -22,7 +29,7 @@ export function organiseReceivers(
     // when only 2 mail address remaining, if one of addresses is equal to last one,
     // choose this address to avoid the last from and to address be the same.
     if (toBeSent.length === 2) {
-      let indexOfLastOne = canBeSent.findIndex(
+      const indexOfLastOne = canBeSent.findIndex(
         (mail) => mail === toBeSent[toBeSent.length - 1]
       )
       if (indexOfLastOne >= 0) indexOfReceiver = indexOfLastOne
@@ -43,7 +50,9 @@ export function organiseReceivers(
   })
 }
 
-export async function getSecretListByCurrentUser(): Promise<{}[]> {
+export async function getSecretListByCurrentUser(): Promise<
+  QueryDocumentSnapshot<DocumentData, DocumentData>[]
+> {
   try {
     const currentUser = auth.currentUser
     if (!currentUser) {
@@ -53,10 +62,12 @@ export async function getSecretListByCurrentUser(): Promise<{}[]> {
 
     const users = collection(db, 'user')
     const q = query(users, where('userId', '==', currentUser.uid))
-    const userSettings: {}[] = (await getDocs(q)).docs
+    const secrets: QueryDocumentSnapshot<DocumentData, DocumentData>[] = (
+      await getDocs(q)
+    ).docs
 
-    if (userSettings.length > 0) {
-      return userSettings
+    if (secrets.length > 0) {
+      return secrets
     }
   } catch (error) {
     console.error('Error fetching user settings:', error)

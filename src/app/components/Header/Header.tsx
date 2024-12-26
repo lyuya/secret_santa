@@ -6,13 +6,13 @@ import { User } from 'firebase/auth'
 import { useContext, useEffect, useState } from 'react'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
 import UserModal from '../UserModal/UserModal'
-import { UserContext } from '@/app/layout'
 import HomeIcon from '@mui/icons-material/Home'
 import Link from 'next/link'
+import { UserContext } from '@/app/context/context'
 
 export default function Header() {
   const [user, setUser] = useState<User | null>()
-  const [isUserModalOpen, setIsUserModalOpen] = useState<boolean>();
+  const [isUserModalOpen, setIsUserModalOpen] = useState<boolean>()
   const context = useContext(UserContext)
 
   const connect = async () => {
@@ -22,30 +22,30 @@ export default function Header() {
   }
 
   const openUserModal = () => {
-    setIsUserModalOpen(true);
-  };
+    setIsUserModalOpen(true)
+  }
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       setUser(user)
-      context?.setUser(user);
-  });
+      context?.setUser(user)
+    })
   }, [])
   return (
     <header className="flex justify-between p-5">
-      <Link  href="/">
-        <HomeIcon className='text-red-900'></HomeIcon>
+      <Link href="/">
+        <HomeIcon className="text-red-900"></HomeIcon>
       </Link>
       {user && (
         <>
-            <div>Hi ! 
-              <button className="p-2 hover:underline" onClick={openUserModal}>
+          <div>
+            Hi !
+            <button className="p-2 hover:underline" onClick={openUserModal}>
               {user.displayName}
-              </button>
-            </div>
-
+            </button>
+          </div>
         </>
-        )}
+      )}
       {!user && (
         <button
           className="text-red-900 hover:text-red-700"
@@ -55,7 +55,9 @@ export default function Header() {
         </button>
       )}
 
-      {isUserModalOpen && (<UserModal onClose={() => setIsUserModalOpen(false)}></UserModal>)}
+      {isUserModalOpen && (
+        <UserModal onClose={() => setIsUserModalOpen(false)}></UserModal>
+      )}
     </header>
   )
 }

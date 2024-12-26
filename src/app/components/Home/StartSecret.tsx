@@ -12,7 +12,7 @@ export default function StartSecret() {
             href="/secret"
             className="hover:bg-red-700 self-center rounded-full bg-red-800 text-white font-bold p-5 text-xl"
           >
-            Let's make a secret !
+            Let&apos;s make a secret !
           </Link>
         </div>
       </div>

@@ -8,7 +8,7 @@ import { db } from '@/app/services/firebase'
 import { addDoc, collection } from 'firebase/firestore'
 import { organiseReceivers, sendMail } from '@/app/services/sendMailService'
 import { useRouter } from 'next/navigation'
-import { UserContext } from '@/app/layout'
+import { UserContext } from '@/app/context/context'
 
 export default function SecretForm() {
   const [name, setName] = useState('')
@@ -38,7 +38,7 @@ export default function SecretForm() {
         giftValue,
         emails: receivers,
         userId: context?.user?.uid,
-        date: new Date().getTime()
+        date: new Date().getTime(),
       })
       if (docRef.id) {
         const emailRequest = organiseReceivers(receivers, giftValue, name)

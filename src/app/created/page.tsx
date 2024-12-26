@@ -63,7 +63,7 @@ export default function Created() {
   return (
     <>
       <div className="h-screen">
-        <div className={"absolute top-1/2 " + styles.rightCenter}>
+        <div className={'absolute top-1/2 ' + styles.rightCenter}>
           <Link href="/">
             <span className="p-5 text-3xl text-red-900 hover:text-red-700">
               <ArrowBackIcon></ArrowBackIcon>
