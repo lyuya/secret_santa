@@ -1,6 +1,6 @@
 'use client'
 import { collection, getDocs, query, where } from "firebase/firestore"
-import { auth, db } from "../services/firebase";
+import { db } from "../services/firebase";
 import { Secret } from "../model/secret";
 import { useContext, useEffect, useState } from "react";
 import Header from "../components/Header/Header";
@@ -14,6 +14,7 @@ export default function SecretList() {
         const currentUser = context?.user
         if (!currentUser) {
             console.log('User not connected.')
+            setSecrets([])
             return
         }
         const users = collection(db, 'secretList');

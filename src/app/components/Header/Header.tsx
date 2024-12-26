@@ -1,12 +1,14 @@
 'use client'
 
-import { login, logout } from '@/app/services/auth.service'
+import { login } from '@/app/services/auth.service'
 import { auth } from '@/app/services/firebase'
 import { User } from 'firebase/auth'
 import { useContext, useEffect, useState } from 'react'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
 import UserModal from '../UserModal/UserModal'
 import { UserContext } from '@/app/layout'
+import HomeIcon from '@mui/icons-material/Home'
+import Link from 'next/link'
 
 export default function Header() {
   const [user, setUser] = useState<User | null>()
@@ -30,7 +32,10 @@ export default function Header() {
   });
   }, [])
   return (
-    <header className="float-right p-5">
+    <header className="flex justify-between p-5">
+      <Link  href="/">
+        <HomeIcon className='text-red-900'></HomeIcon>
+      </Link>
       {user && (
         <>
             <div>Hi ! 

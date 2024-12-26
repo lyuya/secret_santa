@@ -1,12 +1,17 @@
+import { UserContext } from "@/app/layout";
 import { logout } from "@/app/services/auth.service"
 import LogoutIcon from '@mui/icons-material/Logout';
 import Link from "next/link";
+import { useContext } from "react";
 export interface UserModalProps {
     onClose: () => void
 }
 export default function UserModal({ onClose }: UserModalProps) {
+    const context = useContext(UserContext)
     const disconnect = async () => {
         await logout()
+        context?.setUser(null)
+        onClose();
     }
 
     const handleCloseClick = (
