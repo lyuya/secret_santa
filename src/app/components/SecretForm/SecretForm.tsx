@@ -1,5 +1,5 @@
 'use client'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import styles from './SecretForm.module.css'
 import Link from 'next/link'
 import { EmailField } from '../EmailFIeld'
@@ -37,7 +37,8 @@ export default function SecretForm() {
         name,
         giftValue,
         emails: receivers,
-        userId: context?.user?.uid
+        userId: context?.user?.uid,
+        date: new Date().getTime()
       })
       if (docRef.id) {
         const emailRequest = organiseReceivers(receivers, giftValue, name)
