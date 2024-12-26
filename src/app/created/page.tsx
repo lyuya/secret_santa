@@ -1,65 +1,76 @@
 'use client'
 
-import { useEffect } from 'react'
+import { RefObject, useEffect, useRef } from 'react'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import Link from 'next/link'
 import styles from './created.module.css'
 
-export default function Created() {
-  useEffect(() => {
-    const confettiCanvas = document.getElementById(
-      'confettiCanvas'
-    ) as HTMLCanvasElement
-    const confettiCtx = confettiCanvas.getContext('2d')
-    confettiCanvas.width = window.innerWidth
-    confettiCanvas.height = window.innerHeight
+type Confetti = {
+  x: number
+  y: number
+  r: number
+  color: string
+  tilt: number
+  speed: number
+}
 
-    let confetti: {
-      x: number
-      y: number
-      r: number
-      color: string
-      tilt: number
-      speed: number
-    }[] = []
+function createConfetti(confettiCanvas: HTMLCanvasElement): Confetti[] {
+  const confetti = []
+  for (let i = 0; i < 200; i++) {
+    confetti.push({
+      x: Math.random() * confettiCanvas.width,
+      y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+      r: Math.random() * 6 + 2,
+      color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+      tilt: Math.random() * 10 - 5,
+      speed: Math.random() * 2 + 1,
+    })
+  }
 
-    function createConfetti() {
-      confetti = []
-      for (let i = 0; i < 200; i++) {
-        confetti.push({
-          x: Math.random() * confettiCanvas.width,
-          y: Math.random() * confettiCanvas.height - confettiCanvas.height,
-          r: Math.random() * 6 + 2,
-          color: `hsl(${Math.random() * 360}, 100%, 70%)`,
-          tilt: Math.random() * 10 - 5,
-          speed: Math.random() * 2 + 1,
-        })
-      }
+  return confetti
+}
+
+function drawConfetti(confettiCanvas: HTMLCanvasElement, confetti: Confetti[]) {
+  const confettiCtx = confettiCanvas.getContext('2d')
+  confettiCtx?.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height)
+
+  return confetti.map((c) => {
+    if (confettiCtx) {
+      confettiCtx.beginPath()
+      confettiCtx.arc(c.x, c.y, c.r, 0, Math.PI * 2)
+      confettiCtx.fillStyle = c.color
+      confettiCtx.fill()
+      c.y += c.speed
+      c.tilt += Math.random() * 0.1 - 0.05
+      if (c.y > confettiCanvas.height) c.y = -c.r
     }
 
-    function drawConfetti() {
-      confettiCtx?.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height)
-      confetti.forEach((c) => {
-        if (confettiCtx) {
-          confettiCtx.beginPath()
-          confettiCtx.arc(c.x, c.y, c.r, 0, Math.PI * 2)
-          confettiCtx.fillStyle = c.color
-          confettiCtx.fill()
-          c.y += c.speed
-          c.tilt += Math.random() * 0.1 - 0.05
-          if (c.y > confettiCanvas.height) c.y = -c.r
-        }
-      })
-    }
-
-    function animate() {
-      drawConfetti()
-      requestAnimationFrame(animate)
-    }
-
-    createConfetti()
-    animate()
+    return c
   })
+}
+
+function animate(confettiCanvas: HTMLCanvasElement, confetti: Confetti[]) {
+  const newConfetti = drawConfetti(confettiCanvas, confetti)
+  requestAnimationFrame(() => animate(confettiCanvas, newConfetti))
+}
+
+export default function Created() {
+  const confettiCanvas: RefObject<HTMLCanvasElement | null> = useRef(null)
+
+  useEffect(() => {
+    if (!confettiCanvas.current) {
+      return
+    }
+
+    confettiCanvas.current.width = window.innerWidth
+    confettiCanvas.current.height = window.innerHeight
+
+    let confetti: Confetti[] = []
+
+    confetti = createConfetti(confettiCanvas.current)
+    animate(confettiCanvas.current, confetti)
+  })
+
   return (
     <>
       <div className="h-screen">
@@ -74,7 +85,7 @@ export default function Created() {
           </button>
         </div>
 
-        <canvas id="confettiCanvas"></canvas>
+        <canvas ref={confettiCanvas}></canvas>
       </div>
     </>
   )
