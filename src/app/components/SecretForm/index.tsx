@@ -6,7 +6,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { sendMailFromSecret } from '@/app/services/sendMailService'
 import { useRouter } from 'next/navigation'
 import { UserContext } from '@/app/context/context'
-import { EmailField } from '../EmailField'
+import { EmailField } from '../EmailAutoComplete'
 
 export default function SecretForm() {
   const [name, setName] = useState('')

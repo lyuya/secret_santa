@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useRef } from 'react'
-import styles from './emailField.module.css'
+import styles from './emailAutoComplete.module.css'
 
 const EMAILS_SUFFIX = [
   '@gmail.com',
