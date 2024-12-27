@@ -9,8 +9,13 @@ import {
 } from 'firebase/firestore'
 import { MailRequest } from '../model/mailRequest'
 import { auth, db } from './firebase'
-const collectionName = 'secretList';
-export async function sendMailFromSecret(name: string, giftValue: number, emails: string[], userId?: string) {
+const collectionName = 'secretList'
+export async function sendMailFromSecret(
+  name: string,
+  giftValue: number,
+  emails: string[],
+  userId?: string
+) {
   try {
     const docRef = await addDoc(collection(db, collectionName), {
       name,

@@ -38,7 +38,7 @@ export default function Header() {
       </Link>
       {user && (
         <>
-          <div className='text-red-900'>
+          <div className="text-red-900">
             Hi !
             <button className="p-2 hover:underline" onClick={openUserModal}>
               {user.displayName}

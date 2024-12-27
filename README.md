@@ -1,4 +1,5 @@
 # Secret Santa
+
 This is a simple web application designed to organize a Secret Santa event effortlessly. The app collects a list of participants’ emails and automatically assigns a recipient to each participant, ensuring everyone has someone to give a gift to.
 
 ## Features
@@ -38,4 +39,3 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
