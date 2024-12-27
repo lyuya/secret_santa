@@ -4,9 +4,7 @@ import styles from './SecretForm.module.css'
 import Link from 'next/link'
 import { EmailField } from '../EmailField'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import { db } from '@/app/services/firebase'
-import { addDoc, collection } from 'firebase/firestore'
-import { organiseReceivers, sendMail } from '@/app/services/sendMailService'
+import { sendMailFromSecret } from '@/app/services/sendMailService'
 import { useRouter } from 'next/navigation'
 import { UserContext } from '@/app/context/context'
 
@@ -32,22 +30,8 @@ export default function SecretForm() {
   }
 
   const createSecret = async () => {
-    try {
-      const docRef = await addDoc(collection(db, 'secretList'), {
-        name,
-        giftValue,
-        emails: receivers,
-        userId: context?.user?.uid,
-        date: new Date().getTime(),
-      })
-      if (docRef.id) {
-        const emailRequest = organiseReceivers(receivers, giftValue, name)
-        await sendMail(emailRequest)
-      }
-      router.push('/created')
-    } catch (e) {
-      console.error('Error adding document: ', e)
-    }
+    await sendMailFromSecret(name, giftValue, receivers, context?.user?.uid)
+    router.push('/created')
   }
 
   return (

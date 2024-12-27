@@ -5,6 +5,7 @@ import { Secret } from '../model/secret'
 import { useContext, useEffect, useState } from 'react'
 import Header from '../components/Header'
 import { UserContext } from '../context/context'
+import { sendMailFromSecret } from '../services/sendMailService'
 
 export default function SecretList() {
   const [secrets, setSecrets] = useState<Secret[]>([])
@@ -31,20 +32,26 @@ export default function SecretList() {
     setSecrets(secrets)
   }
 
+  const resendEmail = async (secret: Secret) => {
+    await sendMailFromSecret(secret.name, secret.giftValue, secret.emails, secret.userId);
+    alert('Resent!')
+    loadHistory()
+  }
+
   useEffect(() => {
     loadHistory()
   }, [context])
   return (
     <>
       <Header></Header>
-      <div className="w-4/5 justify-self-center pt-20">
+      <div className="w-4/5 justify-self-center justify-items-center pt-20">
         <div className="rounded-lg border border-red-50 p-1 grid md:grid-cols-2 lg:grid-cols-3  gap-4 justify-items-center w-fit">
           {secrets &&
             secrets.map((secret) => (
               <div className="box-content min-w-64 max-w-80 rounded bg-red-50 p-5 text-red-900 border border-red-50 hover:bg-white" key={secret.id}>
                 <div className="text-xs flex items-center justify-between pb-2">
                   <span>{new Date(secret.date).toLocaleString()}</span>
-                  <button className="rounded border border-red-50 p-2 bg-white hover:bg-red-100">
+                  <button onClick={() => resendEmail(secret)} className="rounded border border-red-50 p-2 bg-white hover:bg-red-100">
                     Resend
                   </button>
                 </div>

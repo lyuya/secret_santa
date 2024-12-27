@@ -1,4 +1,5 @@
 import {
+  addDoc,
   collection,
   DocumentData,
   getDocs,
@@ -8,6 +9,24 @@ import {
 } from 'firebase/firestore'
 import { MailRequest } from '../model/mailRequest'
 import { auth, db } from './firebase'
+const collectionName = 'secretList';
+export async function sendMailFromSecret(name: string, giftValue: number, emails: string[], userId?: string) {
+  try {
+    const docRef = await addDoc(collection(db, collectionName), {
+      name,
+      giftValue,
+      emails,
+      userId,
+      date: new Date().getTime(),
+    })
+    if (docRef.id) {
+      const emailRequest = organiseReceivers(emails, giftValue, name)
+      await sendMail(emailRequest)
+    }
+  } catch (e) {
+    console.error('Error adding document: ', e)
+  }
+}
 
 export async function sendMail(mails: MailRequest[]) {
   return await fetch('/api/mailJet', {
