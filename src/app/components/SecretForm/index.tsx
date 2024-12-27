@@ -2,11 +2,11 @@
 import { useContext, useState } from 'react'
 import styles from './SecretForm.module.css'
 import Link from 'next/link'
-import { EmailField } from '../EmailField'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { sendMailFromSecret } from '@/app/services/sendMailService'
 import { useRouter } from 'next/navigation'
 import { UserContext } from '@/app/context/context'
+import { EmailField } from '../EmailField'
 
 export default function SecretForm() {
   const [name, setName] = useState('')
