@@ -1,6 +1,6 @@
 'use client'
 
-import SecretForm from '../components/SecretForm/SecretForm'
+import SecretForm from '../components/SecretForm'
 
 export default function SecretList() {
   return (
