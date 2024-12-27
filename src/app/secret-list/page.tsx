@@ -3,7 +3,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../services/firebase'
 import { Secret } from '../model/secret'
 import { useContext, useEffect, useState } from 'react'
-import Header from '../components/Header/Header'
+import Header from '../components/Header'
 import { UserContext } from '../context/context'
 
 export default function SecretList() {
@@ -37,14 +37,14 @@ export default function SecretList() {
   return (
     <>
       <Header></Header>
-      <div className="w-4/5 justify-self-center pt-10">
-        <div className="grid grid-cols-3 gap-4">
+      <div className="w-4/5 justify-self-center pt-20">
+        <div className="rounded-lg border border-red-50 p-1 grid md:grid-cols-2 lg:grid-cols-3  gap-4 justify-items-center w-fit">
           {secrets &&
             secrets.map((secret) => (
-              <div className="min-w-64 rounded-md border p-5" key={secret.id}>
+              <div className="box-content min-w-64 max-w-80 rounded bg-red-50 p-5 text-red-900 border border-red-50 hover:bg-white" key={secret.id}>
                 <div className="text-xs flex items-center justify-between pb-2">
                   <span>{new Date(secret.date).toLocaleString()}</span>
-                  <button className="rounded border p-2 hover:bg-gray-100">
+                  <button className="rounded border border-red-50 p-2 bg-white hover:bg-red-100">
                     Resend
                   </button>
                 </div>

@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import styles from './startSecret.module.css'
-import Header from '../Header/Header'
+import Header from '../Header'
 export default function StartSecret() {
   return (
     <>

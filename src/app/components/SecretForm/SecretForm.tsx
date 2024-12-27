@@ -2,7 +2,7 @@
 import { useContext, useState } from 'react'
 import styles from './SecretForm.module.css'
 import Link from 'next/link'
-import { EmailField } from '../EmailFIeld'
+import { EmailField } from '../EmailField'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { db } from '@/app/services/firebase'
 import { addDoc, collection } from 'firebase/firestore'
@@ -52,14 +52,14 @@ export default function SecretForm() {
 
   return (
     <>
-      <div className="bg-red-200 h-screen grid items-baseline">
-        <header className="py-2 px-20">
-          <Link href="/">
-            <img height={200} width={150} src="logo.png" />
+      <div className="bg-red-50 h-screen">
+        <header className="absolute top-0 w-full py-2 px-5">
+          <Link className="block w-fit" href="/">
+            <img height={100} width={75} src="logo.png" />
           </Link>
         </header>
-        <div className="content-center">
-          <div className="w-2/6 content-center justify-self-center grid gap-y-3">
+        <div className="content-center px-5 h-full">
+          <div className="grid lg:w-1/2 justify-self-center justify-items-center gap-y-3 min-w-80">
             <div className="w-full">
               <div className="text-xl font-bold text-red-900">
                 Name of secret
@@ -70,7 +70,7 @@ export default function SecretForm() {
                 onChange={($event) => setName($event.target.value)}
               />
             </div>
-            <div>
+            <div className="w-full">
               <div className="text-xl font-bold text-red-900">
                 How much will the gift be approximately ? (euros)
               </div>
@@ -83,7 +83,7 @@ export default function SecretForm() {
                 }
               />
             </div>
-            <div className="pb-10">
+            <div className="w-full pb-10">
               <div className="text-xl font-bold text-red-900">
                 Who are they ? (please type their email to let them know)
               </div>
@@ -94,7 +94,7 @@ export default function SecretForm() {
                 ></EmailField>
                 <button
                   disabled={newReceiver.length === 0}
-                  className="absolute top-[2px] right-0 px-[9px] m-1 right-2 self-center text-red-900 rounded-full hover:bg-red-100"
+                  className="absolute top-[2px] px-[9px] m-1 right-1 self-center text-red-900 rounded-full hover:bg-red-100"
                   onClick={() => addNewReceiver()}
                 >
                   +

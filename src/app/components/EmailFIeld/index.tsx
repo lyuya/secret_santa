@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useRef } from 'react'
+import styles from './emailField.module.css'
 
 const EMAILS_SUFFIX = [
   '@gmail.com',
@@ -48,7 +49,7 @@ export const EmailField = ({ email, setEmail }: EmailFieldProps) => {
         ref={inputRef}
         value={email}
         type="email"
-        className="m-[6px] w-11/12"
+        className={"m-[6px] text-ellipsis " + styles.input}
         placeholder="example: abc@mail.com"
         onChange={(event) => setEmail(event.target.value)}
       />

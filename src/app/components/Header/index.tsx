@@ -5,7 +5,7 @@ import { auth } from '@/app/services/firebase'
 import { User } from 'firebase/auth'
 import { useContext, useEffect, useState } from 'react'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
-import UserModal from '../UserModal/UserModal'
+import UserModal from '../UserModal'
 import HomeIcon from '@mui/icons-material/Home'
 import Link from 'next/link'
 import { UserContext } from '@/app/context/context'
@@ -32,13 +32,13 @@ export default function Header() {
     })
   }, [])
   return (
-    <header className="flex justify-between p-5">
+    <header className="absolute top-0 w-full flex justify-between p-5">
       <Link href="/">
         <HomeIcon className="text-red-900"></HomeIcon>
       </Link>
       {user && (
         <>
-          <div>
+          <div className='text-red-900'>
             Hi !
             <button className="p-2 hover:underline" onClick={openUserModal}>
               {user.displayName}
