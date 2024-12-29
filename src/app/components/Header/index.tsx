@@ -34,7 +34,7 @@ export default function Header() {
   return (
     <header className="absolute top-0 w-full flex justify-between p-5">
       <Link href="/">
-        <HomeIcon className="text-red-900"></HomeIcon>
+        <HomeIcon className="text-red-900 transition hover:drop-shadow-[0_1px_2px_rgba(153,27,27,0.5)]"></HomeIcon>
       </Link>
       {user && (
         <>
