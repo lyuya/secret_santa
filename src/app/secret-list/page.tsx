@@ -49,7 +49,7 @@ export default function SecretList() {
   return (
     <>
       <Header></Header>
-      <div className="w-4/5 justify-self-center justify-items-center pt-20">
+      <div className="w-4/5 justify-self-center justify-items-center py-20">
         <div className="rounded-lg border border-red-50 p-1 grid md:grid-cols-2 lg:grid-cols-3  gap-4 justify-items-center w-fit">
           {secrets &&
             secrets.map((secret) => (
