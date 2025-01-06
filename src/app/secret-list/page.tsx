@@ -61,7 +61,7 @@ export default function SecretList() {
                   <span>{new Date(secret.date).toLocaleString()}</span>
                   <button
                     onClick={() => resendEmail(secret)}
-                    className="rounded border border-red-50 p-2 bg-white hover:bg-red-100"
+                    className="rounded border border-red-50 p-2 bg-white hover:bg-red-50"
                   >
                     Resend
                   </button>
