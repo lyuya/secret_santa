@@ -10,7 +10,7 @@ export default function StartSecret() {
         <div className="flex justify-center align-middle self-center h-full">
           <Link
             href="/secret"
-            className="hover:bg-red-700 self-center rounded-full bg-red-800 text-white font-bold p-5 text-xl"
+            className="custom-button self-center rounded-full bg-red-800 text-white font-bold p-5 text-xl delay-150"
           >
             Let&apos;s make a secret !
           </Link>
