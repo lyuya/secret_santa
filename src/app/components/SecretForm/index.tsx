@@ -58,6 +58,15 @@ export default function SecretForm() {
     }
   }
 
+  const action = (
+    <button
+      className="text-red-600 px-5 font-bold"
+      onClick={() => collapseSnackbar(false)}
+    >
+      OK
+    </button>
+  )
+
   return (
     <>
       <div className="bg-red-50 h-screen">
@@ -150,6 +159,7 @@ export default function SecretForm() {
         onClose={() => collapseSnackbar(false)}
         message={snackbarMsg}
         key={vertical + horizontal}
+        action={action}
       />
     </>
   )
