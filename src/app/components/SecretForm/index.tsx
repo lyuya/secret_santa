@@ -7,17 +7,33 @@ import { sendMailFromSecret } from '@/app/services/sendMailService'
 import { useRouter } from 'next/navigation'
 import { UserContext } from '@/app/context/context'
 import { EmailField } from '../EmailAutoComplete'
-
+import { Snackbar, SnackbarOrigin } from '@mui/material'
+interface State extends SnackbarOrigin {
+  open: boolean
+}
 export default function SecretForm() {
   const [name, setName] = useState('')
   const [giftValue, setGiftValue] = useState(0)
   const [receivers, setReceivers] = useState<string[]>([])
   const [newReceiver, setNewReceiver] = useState('')
+  const [snackbarMsg, setSnackbarMsg] = useState('')
   const context = useContext(UserContext)
   const router = useRouter()
+  const [state, setState] = useState<State>({
+    open: false,
+    vertical: 'bottom',
+    horizontal: 'center',
+  })
+
+  const { vertical, horizontal, open } = state
+  const collapseSnackbar = (open: boolean) => {
+    setState({ ...state, open })
+  }
+
   const addNewReceiver = () => {
     if (receivers.includes(newReceiver)) {
-      console.error('This receiver is already in the list !')
+      setSnackbarMsg('This receiver is already in the list !')
+      collapseSnackbar(true)
     } else {
       setReceivers([...receivers, newReceiver])
     }
@@ -30,8 +46,16 @@ export default function SecretForm() {
   }
 
   const createSecret = async () => {
-    await sendMailFromSecret(name, giftValue, receivers, context?.user?.uid)
-    router.push('/created')
+    if (receivers.length === 0) {
+      setSnackbarMsg('please add at least 3 receivers')
+      collapseSnackbar(true)
+    } else {
+      sendMailFromSecret(name, giftValue, receivers, context?.user?.uid)
+        .then(() => {
+          router.push('/created')
+        })
+        .catch(console.error)
+    }
   }
 
   return (
@@ -120,6 +144,13 @@ export default function SecretForm() {
           </div>
         </div>
       </div>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={() => collapseSnackbar(false)}
+        message={snackbarMsg}
+        key={vertical + horizontal}
+      />
     </>
   )
 }

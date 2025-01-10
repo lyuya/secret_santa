@@ -21,7 +21,7 @@ export async function sendMailFromSecret(
       name,
       giftValue,
       emails,
-      userId,
+      userId: userId ?? null,
       date: new Date().getTime(),
     })
     if (docRef.id) {
