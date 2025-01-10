@@ -67,7 +67,7 @@ export default function SecretForm() {
           </Link>
         </header>
         <div className="content-center px-5 h-full">
-          <div className="grid lg:w-1/2 justify-self-center justify-items-center gap-y-3 min-w-80">
+          <div className="m-auto grid lg:w-1/2 justify-self-center justify-items-center gap-y-3 min-w-80">
             <div className="w-full">
               <div className="text-xl font-bold text-red-900">
                 Name of secret
